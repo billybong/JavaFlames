@@ -46,7 +46,7 @@ public class JavaFlames {
     }
 
     private static void startHttpServer(Path jfrFile) throws IOException {
-        final HttpServer httpServer = HttpServer.create(new InetSocketAddress("localhost", HTTP_PORT), 0);
+        var httpServer = HttpServer.create(new InetSocketAddress("localhost", HTTP_PORT), 0);
         httpServer.createContext("/", exchange -> {
             final Path htmlPage = Paths.get("flamegraph.html");
             exchange.sendResponseHeaders(200, Files.size(htmlPage));
