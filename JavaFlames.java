@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 public class JavaFlames {
 
     private static final int HTTP_PORT = 8090;
-    private static final Object PATH_TO_DATA = "data";
+    private static final String PATH_TO_DATA = "data";
 
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {
