@@ -30,16 +30,19 @@ public class JavaFlames {
 
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {
-            System.err.println("expected jfr input file as argument");
-            System.exit(1);
+            exit(1, "expected jfr input file as argument");
         }
         var jfrFile = Paths.get(args[0]);
         if (!Files.exists(jfrFile)) {
-            System.err.println(jfrFile + " not found.");
-            System.exit(2);
+            exit(2, jfrFile + " not found.");
         }
         startHttpServer(jfrFile);
         Desktop.getDesktop().browse(URI.create("http://localhost:%d?baseLineInput=%s".formatted(HTTP_PORT, PATH_TO_DATA)));
+    }
+
+    private static void exit(int code, String message) {
+        System.err.println(message);
+        System.exit(code);
     }
 
     private static void startHttpServer(Path jfrFile) throws IOException {
