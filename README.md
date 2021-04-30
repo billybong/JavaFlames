@@ -5,7 +5,7 @@ Simple one file java script to generate flamegraphs from Java flight recordings 
 With a fairly recent Java version installed simply run:
 `java JavaFlames.java <path to jfr recording file>`
 
-This launches an http server serving the `flamegraph.html` file and endpoint for the folded format extracted from the JFR logs.
+This launches an http server serving the `index.html` file and endpoint for the folded format extracted from the JFR logs.
 After that the script opens up a browser showing the results.
 
 ## Credits
