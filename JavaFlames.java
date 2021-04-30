@@ -46,19 +46,17 @@ public class JavaFlames {
         final HttpServer httpServer = HttpServer.create(new InetSocketAddress("localhost", HTTP_PORT), 0);
         httpServer.createContext("/" + PATH_TO_DATA, exchange -> {
             exchange.sendResponseHeaders(200, 0);
-            final OutputStream responseBody = exchange.getResponseBody();
-            produceFlameGraphLog(jfrFile).forEach(io(line -> responseBody.write(line.getBytes(StandardCharsets.UTF_8))));
-            responseBody.close();
+            try(var responseBody = exchange.getResponseBody()){
+                produceFlameGraphLog(jfrFile).forEach(io(line -> responseBody.write(line.getBytes(StandardCharsets.UTF_8))));
+            }
             System.exit(0);
         });
         httpServer.createContext("/", exchange -> {
             final Path htmlPage = Paths.get("flamegraph.html");
             exchange.sendResponseHeaders(200, Files.size(htmlPage));
-            final OutputStream responseBody = exchange.getResponseBody();
-            try (FileInputStream fis = new FileInputStream(htmlPage.toFile())) {
+            try (var responseBody = exchange.getResponseBody(); var fis = new FileInputStream(htmlPage.toFile())) {
                 fis.transferTo(responseBody);
             }
-            responseBody.close();
         });
         httpServer.start();
     }
