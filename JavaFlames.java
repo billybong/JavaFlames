@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,17 +84,14 @@ public class JavaFlames {
     }
 
     private static Stream<RecordedEvent> extractEvents(RecordingFile recordingFile) {
-        return Stream.generate(() -> {
-            if (!recordingFile.hasMoreEvents()) {
-                return null;
-            }
-            try {
-                return recordingFile.readEvent();
-            } catch (final IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        }).takeWhile(Objects::nonNull);
+        return Stream.generate(() -> 
+            recordingFile.hasMoreEvents() ? 
+                io(recordingFile::readEvent).get() : 
+                null
+        ).takeWhile(Objects::nonNull);
     }
+
+    // Helpers for dealing with checked IOException's in lambdas
 
     @FunctionalInterface
     interface IORunnable {
@@ -103,6 +101,21 @@ public class JavaFlames {
     @FunctionalInterface
     interface IOConsumer<T> {
         void apply(T input) throws IOException;
+    }
+
+    @FunctionalInterface
+    interface IOSupplier<T> {
+        T get() throws IOException;
+    }
+
+    private static <T> Supplier<T> io(IOSupplier<T> supplier) {
+        return () -> {
+            try {
+                return supplier.get();
+            } catch (final IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        };
     }
 
     private static <T> Consumer<T> io(IOConsumer<T> consumer) {
