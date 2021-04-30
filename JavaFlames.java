@@ -7,7 +7,6 @@ import jdk.jfr.consumer.RecordingFile;
 import java.awt.Desktop;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
