@@ -1,5 +1,5 @@
 # Flamegraph from JFR logs
-Simple java script to generate flamegraphs from Java flight recordings without requiring to install Perl and the Brendan Gregg scripts.
+Simple java script to generate flamegraphs from Java flight recordings without requiring to install Perl and the [Brendan Gregg scripts](https://github.com/brendangregg/FlameGraph).
 
 ## Usage
 With a fairly recent Java version installed simply run:
