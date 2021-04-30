@@ -44,19 +44,19 @@ public class JavaFlames {
 
     private static void startHttpServer(Path jfrFile) throws IOException {
         final HttpServer httpServer = HttpServer.create(new InetSocketAddress("localhost", HTTP_PORT), 0);
-        httpServer.createContext("/" + PATH_TO_DATA, exchange -> {
-            exchange.sendResponseHeaders(200, 0);
-            try(var responseBody = exchange.getResponseBody()){
-                produceFlameGraphLog(jfrFile).forEach(io(line -> responseBody.write(line.getBytes(StandardCharsets.UTF_8))));
-            }
-            System.exit(0);
-        });
         httpServer.createContext("/", exchange -> {
             final Path htmlPage = Paths.get("flamegraph.html");
             exchange.sendResponseHeaders(200, Files.size(htmlPage));
             try (var responseBody = exchange.getResponseBody(); var fis = new FileInputStream(htmlPage.toFile())) {
                 fis.transferTo(responseBody);
             }
+        });
+        httpServer.createContext("/" + PATH_TO_DATA, exchange -> {
+            exchange.sendResponseHeaders(200, 0);
+            try(var responseBody = exchange.getResponseBody()){
+                produceFlameGraphLog(jfrFile).forEach(io(line -> responseBody.write(line.getBytes(StandardCharsets.UTF_8))));
+            }
+            System.exit(0);
         });
         httpServer.start();
     }
