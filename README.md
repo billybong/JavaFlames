@@ -2,7 +2,7 @@
 Simple java script to generate flamegraphs from Java flight recordings without requiring to install Perl and the Brendan Gregg scripts.
 
 ## Usage
-With a fairly recent Java version install simply run:
+With a fairly recent Java version installed simply run:
 `java JavaFlames.java <path to jfr recording file>`
 
 This launches an http server serving the `flamegraph.html` file and endpoint for the folded format extracted from the JFR logs.
