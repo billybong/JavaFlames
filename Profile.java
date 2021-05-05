@@ -48,7 +48,7 @@ public class Profile {
 
         println("Stopping profiling");
         run("jcmd %d JFR.dump name=%s filename=%s".formatted(pid, PROFILING_NAME, LOG_FILE_NAME));
-        Runtime.getRuntime().exec("jcmd %d JFR.stop name=%s".formatted(pid, PROFILING_NAME));
+        run("jcmd %d JFR.stop name=%s".formatted(pid, PROFILING_NAME));
 
         println("Starting JavaFlames");
         run("java JavaFlames.java %s".formatted(LOG_FILE_NAME));
