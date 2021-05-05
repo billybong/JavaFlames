@@ -2,12 +2,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Profile {
-    private static final Path LOG_FILE_NAME = Paths.get("log.jfr").toAbsolutePath();
+    private static final String now = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+    private static final Path LOG_FILE_NAME = Paths.get("log" + now + ".jfr").toAbsolutePath();
     private static final Path CONFIG_FILE_NAME = Paths.get("config.jfc").toAbsolutePath();
     private static final String PROFILING_NAME = "temp";
     private static final Duration DEFAULT_DURATION = Duration.ofSeconds(30);

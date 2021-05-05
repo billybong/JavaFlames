@@ -37,7 +37,7 @@ public class JavaFlames {
             exit(2, jfrFile + " not found.");
         }
         startHttpServer(jfrFile);
-        Desktop.getDesktop().browse(URI.create("http://localhost:%d?baseLineInput=%s".formatted(HTTP_PORT, PATH_TO_DATA)));
+        Desktop.getDesktop().browse(URI.create("http://localhost:%d?baseLineInput=%s&baseLineTitle=%s".formatted(HTTP_PORT, PATH_TO_DATA, jfrFile.toFile().getName())));
     }
 
     private static void exit(int code, String message) {
