@@ -39,9 +39,9 @@ public class Profile {
 
         run("jcmd %d JFR.start name=%s settings=%s".formatted(pid, PROFILING_NAME, CONFIG_FILE_NAME));
         println("Started profiling process %d for %d seconds".formatted(pid, duration.getSeconds()));
-        final LocalTime started = LocalTime.now();
+        final LocalTime deadline = LocalTime.now().plus(duration);
 
-        while (started.plus(duration).isAfter(LocalTime.now())) {
+        while (LocalTime.now().isBefore(deadline)) {
             TimeUnit.SECONDS.sleep(1);
             System.out.print(".");
         }
