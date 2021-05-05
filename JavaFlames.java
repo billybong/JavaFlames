@@ -37,7 +37,13 @@ public class JavaFlames {
             exit(2, jfrFile + " not found.");
         }
         startHttpServer(jfrFile);
-        Desktop.getDesktop().browse(URI.create("http://localhost:%d?baseLineInput=%s&baseLineTitle=%s".formatted(HTTP_PORT, PATH_TO_DATA, jfrFile.toFile().getName())));
+
+        var url = "http://localhost:%d?baseLineInput=%s&baseLineTitle=%s".formatted(HTTP_PORT, PATH_TO_DATA, jfrFile.toFile().getName());
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            Desktop.getDesktop().browse(URI.create(url));
+        } else {
+            System.out.println("Done! Open a browser and point it to: " + url);
+        }
     }
 
     private static void exit(int code, String message) {
